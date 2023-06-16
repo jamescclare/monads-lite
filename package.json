@@ -1,0 +1,36 @@
+{
+  "name": "monads-lite",
+  "version": "1.0.0",
+  "description": "A TypeScript monad library with only the things you'll actually use.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamescclare/monads-lite.git"
+  },
+  "keywords": [
+    "monad",
+    "monads",
+    "monadic",
+    "either",
+    "ok",
+    "maybe",
+    "fp",
+    "functional",
+    "programming"
+  ],
+  "author": "James Clare",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamescclare/monads-lite/issues"
+  },
+  "homepage": "https://github.com/jamescclare/monads-lite#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.2",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.1.3"
+  }
+}
