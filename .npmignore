@@ -5,5 +5,5 @@ src/
 .eslintrc.cjs
 .gitignore
 .lintstagedrc.json
-jest.config.je
+jest.config.js
 prettier.config.js
