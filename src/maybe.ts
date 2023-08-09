@@ -31,7 +31,7 @@ const match = <T, Return>(
         }
     }
 
-    if (defaultAction) defaultAction(value);
+    if (defaultAction) return defaultAction(value);
 };
 
 export { Maybe, Nothing, act, on, match };
