@@ -29,7 +29,16 @@ const act = <T, E, Return>(
     result: Result<T, E>,
     action: (has: T) => Return
 ): Result<Return, E> => {
-    return match(result, [(a) => ok(action(a)), (b) => err(b)]);
+    const handleAction = (a: T) => {
+        try {
+            const next = action(a);
+            return ok(next);
+        } catch (e: any) {
+            return err(e);
+        }
+    };
+
+    return match(result, [(a) => handleAction(a), (b) => err(b)]);
 };
 
 const actAsync = async <T, E, Return>(
@@ -42,7 +51,17 @@ const actAsync = async <T, E, Return>(
     ]);
 };
 
-const onPromise = <A, B>(result: Promise<Result<A, B>>) => ({
+type AsyncResultActions<A, B> = {
+    act: <Return>(action: (ok: A) => Return) => AsyncResultActions<Return, B>;
+    actAsync: <Return>(
+        action: (ok: A) => Promise<Return>
+    ) => AsyncResultActions<Return, B>;
+    done: () => Promise<Result<A, B>>;
+};
+
+const onPromise = <A, B>(
+    result: Promise<Result<A, B>>
+): AsyncResultActions<A, B> => ({
     act: <Return>(action: (ok: A) => Return) => {
         const wrappedAction = (ok) => Promise.resolve(action(ok));
         const next = actAsync(result, wrappedAction);
@@ -55,7 +74,15 @@ const onPromise = <A, B>(result: Promise<Result<A, B>>) => ({
     done: async () => act(await result, identity),
 });
 
-const onResult = <A, B>(result: Result<A, B>) => ({
+type ResultActions<A, B> = {
+    act: <Return>(action: (ok: A) => Return) => ResultActions<Return, B>;
+    actAsync: <Return>(
+        action: (ok: A) => Promise<Return>
+    ) => AsyncResultActions<Return, B>;
+    done: () => Result<A, B>;
+};
+
+const onResult = <A, B>(result: Result<A, B>): ResultActions<A, B> => ({
     act: <Return>(action: (ok: A) => Return) => {
         const next = act(result, action);
         return onResult(next);
@@ -67,6 +94,18 @@ const onResult = <A, B>(result: Result<A, B>) => ({
     done: () => act(result, identity),
 });
 
-const on = <A>(a: A) => onResult(ok(a));
+const onValue = <A, B>(a: A) => onResult<A, B>(ok(a));
 
-export { Ok, Err, Result, ok, err, resultify, implyFrom, match, on };
+export {
+    Ok,
+    Err,
+    Result,
+    ok,
+    err,
+    resultify,
+    implyFrom,
+    match,
+    onValue,
+    onResult,
+    onPromise,
+};
