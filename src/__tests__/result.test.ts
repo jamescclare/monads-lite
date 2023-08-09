@@ -144,6 +144,22 @@ describe('act', () => {
         expect(result.status).toBe('err');
         expect(result.data.message).toBe('fail 1');
     });
+
+    it('should handle error in async action chain', async () => {
+        const result = await onValue<number, Error>(2)
+            .act((n) => n + 1)
+            .act(() => {
+                throw new Error('fail 1');
+            })
+            .act((n) => n * 2)
+            .actAsync(async () => {
+                throw new Error('fail 2');
+            })
+            .done();
+
+        expect(result.status).toBe('err');
+        expect(result.data.message).toBe('fail 1');
+    });
 });
 
 describe('match', () => {
