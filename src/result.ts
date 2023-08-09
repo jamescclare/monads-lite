@@ -11,7 +11,7 @@ type Result<T, E> = Ok<T> | Err<E>;
 const resultify = <T, E>(promise: Promise<T>): Promise<Result<T, E>> =>
     promise.then(ok).catch((t: E) => err(t));
 
-const implyFrom = <T>(promise: Promise<T>) => ({
+const inferFrom = <T>(promise: Promise<T>) => ({
     resultify: <E>() => resultify<T, E>(promise),
 });
 
@@ -46,7 +46,7 @@ const actAsync = async <T, E, Return>(
     action: (has: T) => Promise<Return>
 ): Promise<Result<Return, E>> => {
     return match(await result, [
-        (a) => implyFrom(action(a)).resultify<E>(),
+        (a) => inferFrom(action(a)).resultify<E>(),
         (b) => Promise.resolve(err(b)),
     ]);
 };
@@ -103,7 +103,7 @@ export {
     ok,
     err,
     resultify,
-    implyFrom,
+    inferFrom,
     match,
     onValue,
     onResult,

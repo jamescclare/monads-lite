@@ -1,6 +1,6 @@
 import {
     err,
-    implyFrom,
+    inferFrom,
     ok,
     resultify,
     onValue,
@@ -52,10 +52,10 @@ describe('resultify', () => {
         expect(result.data).toBe(123);
     });
 
-    it('should imply T from a resolving promise, then resultify', async () => {
+    it('should infer T from a resolving promise, then resultify', async () => {
         const promise = Promise.resolve(123);
 
-        const promisedResult = implyFrom(promise).resultify<never>();
+        const promisedResult = inferFrom(promise).resultify<never>();
 
         const result = await promisedResult;
 
@@ -63,10 +63,10 @@ describe('resultify', () => {
         expect(result.data).toBe(123);
     });
 
-    it('should imply T from a rejecting promise, then resultify', async () => {
+    it('should infer T from a rejecting promise, then resultify', async () => {
         const promise = Promise.reject(123);
 
-        const promisedResult = implyFrom(promise).resultify<number>();
+        const promisedResult = inferFrom(promise).resultify<number>();
 
         const result = await promisedResult;
 
@@ -118,8 +118,8 @@ describe('act', () => {
     });
 
     it('should infer result from promise', async () => {
-        const promise = new Promise<number>((resolve) => resolve(5));
-        const result = await implyFrom(promise).resultify();
+        const promise = Promise.resolve(5);
+        const result = await inferFrom(promise).resultify();
 
         const final = onResult(result)
             .act((n) => n * 2)
