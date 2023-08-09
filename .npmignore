@@ -1,1 +1,9 @@
 node_modules/
+src/
+.husky/
+.vscode/
+.eslintrc.cjs
+.gitignore
+.lintstagedrc.json
+jest.config.je
+prettier.config.js
