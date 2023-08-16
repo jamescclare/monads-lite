@@ -19,7 +19,7 @@ const on = <A>(maybe: Maybe<A>) => ({
 
 const match = <T, Return>(
     value: T,
-    statements: Array<(value: T) => Maybe<(value: T) => Return>>,
+    statements: Array<(value: T) => Maybe<false | ((value: T) => Return)>>,
     defaultAction?: (value: T) => Return
 ): Maybe<Return> => {
     const iter = statements[Symbol.iterator]();

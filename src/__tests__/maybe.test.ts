@@ -49,20 +49,18 @@ describe('on', () => {
 describe('match', () => {
     it('should match cases', () => {
         const value = match(9, [
-            // TODO: not sure if I love that you need to
-            // return null for the no match case...
-            (n) => (n === 2 ? () => 22222 : null),
-            (n) => (n === 3 ? () => 33333 : null),
-            (n) => (n === 9 ? () => 99999 : null),
+            (n) => n === 2 && (() => 22222),
+            (n) => n === 3 && (() => 33333),
+            (n) => n === 9 && (() => 99999),
         ]);
 
         expect(value).toBe(99999);
     });
     it('should return nothing if no cases match and no default is provided', () => {
         const value = match(10, [
-            (n) => (n === 2 ? () => 22222 : null),
-            (n) => (n === 3 ? () => 33333 : null),
-            (n) => (n === 9 ? () => 99999 : null),
+            (n) => n === 2 && (() => 22222),
+            (n) => n === 3 && (() => 33333),
+            (n) => n === 9 && (() => 99999),
         ]);
 
         expect(value).toBe(undefined);
@@ -72,9 +70,9 @@ describe('match', () => {
         const value = match(
             10,
             [
-                (n) => (n === 2 ? () => 22222 : null),
-                (n) => (n === 3 ? () => 33333 : null),
-                (n) => (n === 9 ? () => 99999 : null),
+                (n) => n === 2 && (() => 22222),
+                (n) => n === 3 && (() => 33333),
+                (n) => n === 9 && (() => 99999),
             ],
             (n) => n
         );

@@ -128,9 +128,9 @@ A Maybe can be matched against cases:
 ```ts
 // If 2, 3 or 9, repeat the digit 5 times.
 const value = Maybe.match(maybe, [
-    (n) => (n === 2 ? () => 22222 : null),
-    (n) => (n === 3 ? () => 33333 : null),
-    (n) => (n === 9 ? () => 99999 : null),
+    n => (n === 2 && (() => 22222)),
+    n => (n === 3 && (() => 33333)),
+    n => (n === 9 && (() => 99999)),
 ]);
 ```
 
@@ -140,8 +140,8 @@ When matching a Maybe a default case can also be provided:
 // If 2, 3 or 9, repeat the digit 5 times,
 // otherwise leave value unchanges.
 const value = Maybe.match(maybe, [
-    (n) => (n === 2 ? () => 22222 : null),
-    (n) => (n === 3 ? () => 33333 : null),
-    (n) => (n === 9 ? () => 99999 : null),
+    n => (n === 2 && (() => 22222)),
+    n => (n === 3 && (() => 33333)),
+    n => (n === 9 && (() => 99999)),
 ], n => n);
 ```
