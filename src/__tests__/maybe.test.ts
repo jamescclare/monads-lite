@@ -1,4 +1,3 @@
-// TODO: we need some tests for Maybe.
 import { Maybe, act, on, match } from '../maybe';
 
 describe('act', () => {
