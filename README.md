@@ -6,6 +6,7 @@ A TypeScript monad library with only the things you'll actually use.
 
 > I'm a JS/TS developer interested in using some more functional programming patterns in my code, but all these FP libs don't fit with the way I work!
 
+
 ## Then mondas-lite is what you need!
 
 `monads-lite` is JS/TS library that brings mondic functional programming tools that don't take over your code, and let you expore the benifits functional programming without re-writing your codebase.
@@ -25,6 +26,8 @@ i.e. `type OperationResult = Result.Result<number, 'oh no, I failed'>;`
 A Result can be infered from a Promise if a error type is provided:
 
 ```ts
+import { Result } from 'monads-lite';
+
 const promise = Promise.resolve(123);
 const result: Result<number, CustomErrorType> = 
     inferFrom(promise).resultify<CustomErrorType>();
@@ -33,6 +36,8 @@ const result: Result<number, CustomErrorType> =
 A Result can be matched on if it is an Ok or Err:
 
 ```ts
+import { Result } from 'monads-lite';
+
 // This is a powerful tool for program flow control.
 const value = Result.match(result, [
     (okValue) => handleOk(okValue),
@@ -43,12 +48,16 @@ const value = Result.match(result, [
 Actions can be run inside the Result monadic container so that they will only apply if the Result is of type Ok:
 
 ```ts
+import { Result } from 'monads-lite';
+
 const value = Result.act(result, (okValue) => doNextThing(okValue));
 ```
 
 These actions can be chained:
 
 ```ts
+import { Result } from 'monads-lite';
+
 const value = Result.onResult(result)
     // These actions will only execute if the Result is Ok.
     .act(n => n + 1)
@@ -60,6 +69,8 @@ const value = Result.onResult(result)
 Actions can also be run asynchronously:
 
 ```ts
+import { Result } from 'monads-lite';
+
 const result = await Result.onResult(result)
     .actAsync(async (n) => n + 1)
     .actAsync(async (n) => n * 2)
@@ -69,6 +80,8 @@ const result = await Result.onResult(result)
 Errors thrown anywhere in the act chain will be resolve out as Err:
 
 ```ts
+import { Result } from 'monads-lite';
+
 const result = Result.onValue<number, Error>(2)
     .act((n) => n + 1) // This will run.
     .act(() => {
@@ -109,12 +122,16 @@ i.e. `type Username = Maybe<string>;`
 Actions can be run inside the Maybe monadic container so that they will only apply if the Result is of type Ok:
 
 ```ts
+import { Maybe } from 'monads-lite';
+
 const value = Maybe.act(maybe, (existingValue) => doNextThing(existingValue));
 ```
 
 These actions can be chained:
 
 ```ts
+import { Maybe } from 'monads-lite';
+
 const value = Maybe.onResult(maybe)
     // These actions will only execute if the Result is Ok.
     .act(n => n + 1)
@@ -126,6 +143,8 @@ const value = Maybe.onResult(maybe)
 A Maybe can be matched against cases:
 
 ```ts
+import { Maybe } from 'monads-lite';
+
 // If 2, 3 or 9, repeat the digit 5 times.
 const value = Maybe.match(maybe, [
     n => (n === 2 && (() => 22222)),
@@ -137,6 +156,8 @@ const value = Maybe.match(maybe, [
 When matching a Maybe a default case can also be provided:
 
 ```ts
+import { Maybe } from 'monads-lite';
+
 // If 2, 3 or 9, repeat the digit 5 times,
 // otherwise leave value unchanges.
 const value = Maybe.match(maybe, [
