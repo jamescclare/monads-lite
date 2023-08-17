@@ -166,3 +166,21 @@ const value = Maybe.match(maybe, [
     n => (n === 9 && (() => 99999)),
 ], n => n);
 ```
+
+## `curry`
+
+The `curry` function can be used to split a multi-argument function into a nested set of single argument functions. This technique is called [currying](https://wikipedia.org/wiki/Currying).
+
+```ts
+import { curry } from 'monads-lite';
+
+const add = (a: number, b: number, c: number) => {
+    return a + b + c;
+};
+
+const curriedAdd = curry(add);
+const addFive = curriedAdd(5);
+const addTwenty = addFive(15);
+
+const thirty: number = addTwenty(10);
+```
