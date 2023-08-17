@@ -1,6 +1,6 @@
 {
     "name": "monads-lite",
-    "version": "1.1.5-curry.0",
+    "version": "1.2.0",
     "description": "A TypeScript monad library with only the things you'll actually use.",
     "main": "dist/index.js",
     "scripts": {
